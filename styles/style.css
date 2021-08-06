@@ -1,0 +1,26 @@
+header {
+  text-align: center;
+  font-size: 3.5rem;
+  font-family: "Rock Salt", cursive;
+  margin-top: 10rem;
+}
+
+#game-container {
+  display: grid;
+  grid-template-columns: repeat(3, 5rem);
+  grid-template-rows: 5rem 5rem 5rem;
+  justify-content: center;
+  gap: 3rem;
+  align-content: center;
+}
+
+.square {
+  background-color: black;
+  border-radius: 3rem;
+  cursor: pointer;
+  text-align: center;
+  line-height: 5rem;
+  font-size: 1.5rem;
+  color: rgb(255, 255, 255);
+  font-family: "Rock Salt", cursive;
+}

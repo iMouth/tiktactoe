@@ -8,16 +8,21 @@ const gameBoard = () => {
   return { board };
 };
 
-const playerX = () => {
-  return "X";
+const player = (sign) => {
+  this.sign = sign;
+
+  const getSign = () => {
+    return sign;
+  };
+
+  return { getSign };
 };
 
-const playerO = () => {
-  return "O";
-};
+const gameController = () => {};
 
-const game = (board) => {
+const displayController = (() => {
   function createBoard() {
+    console.log("hi");
     const boardContainer = document.getElementById("game-container");
     for (let i = 0; i < BOARD_SQUARES; i++) {
       const square = document.createElement("div");
@@ -28,9 +33,8 @@ const game = (board) => {
     }
   }
   return { createBoard };
-};
+})();
 
 const test = gameBoard();
-const startGame = game(test);
+const startGame = displayController;
 startGame.createBoard();
-console.log(test.board);

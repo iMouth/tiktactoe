@@ -1,7 +1,10 @@
+#wrapper {
+  font-family: "Rock Salt", cursive;
+}
+
 header {
   text-align: center;
   font-size: 3.5rem;
-  font-family: "Rock Salt", cursive;
   margin-top: 10rem;
 }
 
@@ -22,5 +25,27 @@ header {
   line-height: 5rem;
   font-size: 1.5rem;
   color: rgb(255, 255, 255);
+}
+
+#replay {
+  text-align: center;
+  margin: 3rem auto;
+}
+
+#replay-button {
+  font-size: 1.5rem;
+  padding: 1.2rem;
   font-family: "Rock Salt", cursive;
+  background-color: transparent;
+  border: 1px solid white;
+  border-radius: 5rem;
+  cursor: pointer;
+}
+
+#replay-button:hover {
+  border: 1px solid black;
+}
+#replay-button:active {
+  color: white;
+  background-color: black;
 }

@@ -8,6 +8,10 @@ header {
   margin-top: 7rem;
 }
 
+#tac {
+  color: black;
+}
+
 #game-container {
   display: grid;
   grid-template-columns: repeat(3, 5rem);
@@ -33,6 +37,10 @@ header {
   font-size: 3rem;
 }
 
+#outcome span {
+  color: red;
+}
+
 #replay {
   text-align: center;
   margin: 1 auto;
@@ -52,6 +60,6 @@ header {
   border: 1px solid black;
 }
 #replay-button:active {
-  color: white;
+  color: red;
   background-color: black;
 }

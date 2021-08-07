@@ -24,6 +24,7 @@ const gameController = (() => {
     [0, 4, 8],
     [2, 4, 6],
   ];
+
   const board = [];
   let moves = BOARD_SQUARES;
   let turn = playerO;
@@ -33,7 +34,7 @@ const gameController = (() => {
   }
   function setBoard() {
     for (let i = 0; i < BOARD_SQUARES; i++) {
-      board.push("");
+      board[i] = "";
     }
   }
   function changeTurn() {
@@ -47,9 +48,13 @@ const gameController = (() => {
         board[winCombos[i][0]] === board[winCombos[i][2]] &&
         board[winCombos[i][0]] != ""
       ) {
+        boardContainer.item(winCombos[i][0]).style.color = "red";
+        boardContainer.item(winCombos[i][1]).style.color = "red";
+        boardContainer.item(winCombos[i][2]).style.color = "red";
         return true;
       }
     }
+
     return false;
   }
 
@@ -57,14 +62,25 @@ const gameController = (() => {
     changeTurn();
     moves -= 1;
     board[e.target.getAttribute("data-num")] = turn.getSign();
-    let x = checkWin();
-    console.log(x);
     return turn.getSign();
   }
 
+  function replay() {
+    setBoard();
+    moves = BOARD_SQUARES;
+    turn = playerO;
+    for (let i = 0; i < BOARD_SQUARES; i++) {
+      boardContainer.item(i).textContent = "";
+      boardContainer.item(i).style.color = "white";
+    }
+    tac.style.color = "black";
+    outcome.innerHTML = "&nbsp;";
+  }
+
+  const boardContainer = document.getElementById("game-container").childNodes;
   setBoard();
 
-  return { placeMove, retMoves };
+  return { placeMove, retMoves, checkWin, replay };
 })();
 
 const displayController = (() => {
@@ -80,19 +96,29 @@ const displayController = (() => {
   }
 
   function placeMove(e) {
-    if (e.target.textContent === "") {
+    if (playGame.checkWin() || playGame.retMoves() === 0) {
+      return;
+    } else if (e.target.textContent === "") {
       e.target.textContent = playGame.placeMove(e);
     }
-    if (playGame.retMoves() === 0) {
+    if (playGame.checkWin()) {
+      winner(e);
+    } else if (playGame.retMoves() === 0) {
       tie();
     }
   }
 
+  function winner(e) {
+    tac.style.color = "red";
+    let winner = e.target.textContent;
+    outcome.innerHTML = "The winner is: <span>" + winner + "</span>";
+  }
   function tie() {
-    outcome = document.getElementById("outcome");
     outcome.textContent = "There was a tie";
   }
 
+  outcome.innerHTML = "&nbsp;";
   const playGame = gameController;
+  document.getElementById("replay-button").onclick = playGame.replay;
   createBoard();
 })();

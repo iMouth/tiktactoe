@@ -4,8 +4,8 @@
 
 header {
   text-align: center;
-  font-size: 3.5rem;
-  margin-top: 10rem;
+  font-size: 5rem;
+  margin-top: 7rem;
 }
 
 #game-container {
@@ -27,9 +27,15 @@ header {
   color: rgb(255, 255, 255);
 }
 
+#outcome {
+  margin-top: 1rem autoß;
+  text-align: center;
+  font-size: 3rem;
+}
+
 #replay {
   text-align: center;
-  margin: 3rem auto;
+  margin: 1 auto;
 }
 
 #replay-button {

@@ -1,13 +1,5 @@
 const BOARD_SQUARES = 9;
 
-const gameBoard = (() => {
-  const board = new Array(BOARD_SQUARES);
-  for (let i = 0; i < BOARD_SQUARES; i++) {
-    board[i] = "square" + (i + 1);
-  }
-  return { board };
-})();
-
 const player = (sign) => {
   this.sign = sign;
 
@@ -22,16 +14,57 @@ const gameController = (() => {
   playerX = player("X");
   playerO = player("O");
 
-  let turn = playerO.getSign();
+  const winCombos = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
+  const board = [];
+  let moves = BOARD_SQUARES;
+  let turn = playerO;
+
+  function retMoves() {
+    return moves;
+  }
+  function setBoard() {
+    for (let i = 0; i < BOARD_SQUARES; i++) {
+      board.push("");
+    }
+  }
   function changeTurn() {
-    turn = turn === "O" ? playerX.getSign() : playerO.getSign();
+    turn = turn.getSign() === "O" ? playerX : playerO;
   }
 
-  function placeMove() {
-    changeTurn();
-    return turn;
+  function checkWin() {
+    for (let i = 0; i < winCombos.length; i++) {
+      if (
+        board[winCombos[i][0]] === board[winCombos[i][1]] &&
+        board[winCombos[i][0]] === board[winCombos[i][2]] &&
+        board[winCombos[i][0]] != ""
+      ) {
+        return true;
+      }
+    }
+    return false;
   }
-  return { placeMove };
+
+  function placeMove(e) {
+    changeTurn();
+    moves -= 1;
+    board[e.target.getAttribute("data-num")] = turn.getSign();
+    let x = checkWin();
+    console.log(x);
+    return turn.getSign();
+  }
+
+  setBoard();
+
+  return { placeMove, retMoves };
 })();
 
 const displayController = (() => {
@@ -40,7 +73,7 @@ const displayController = (() => {
     for (let i = 0; i < BOARD_SQUARES; i++) {
       const square = document.createElement("div");
       square.classList.add("square");
-      square.setAttribute("id", "sqaure" + (i + 1));
+      square.setAttribute("data-num", i);
       boardContainer.appendChild(square);
       square.addEventListener("click", placeMove);
     }
@@ -48,13 +81,18 @@ const displayController = (() => {
 
   function placeMove(e) {
     if (e.target.textContent === "") {
-      e.target.textContent = playGame.placeMove();
-      console.log(e);
+      e.target.textContent = playGame.placeMove(e);
+    }
+    if (playGame.retMoves() === 0) {
+      tie();
     }
   }
 
-  const playArea = gameBoard;
+  function tie() {
+    outcome = document.getElementById("outcome");
+    outcome.textContent = "There was a tie";
+  }
+
   const playGame = gameController;
   createBoard();
-  return { createBoard };
 })();
